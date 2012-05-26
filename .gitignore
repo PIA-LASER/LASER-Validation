@@ -12,6 +12,10 @@ test/tmp
 test/version_tmp
 tmp
 
+# Large seekfile
+
+test/fixtures/seekfile
+
 # YARD artifacts
 .yardoc
 _yardoc
