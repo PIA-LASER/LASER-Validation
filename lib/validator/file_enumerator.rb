@@ -6,7 +6,7 @@ module Validator
     include Enumerable
 
     def initialize(path)
-      raise ArgumentError unless File.exists?(path)
+      raise ArgumentError, "Could not find file #{path}" unless File.exists?(path)
       @file = File.open(path)
     end
 
