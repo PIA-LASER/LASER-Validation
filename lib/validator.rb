@@ -17,6 +17,8 @@ module Validator
     def validate
       load_user_prefs
       overall_precision
+
+      sorted_user_precision
     end
 
     private
@@ -40,6 +42,8 @@ module Validator
 
     def sorted_user_precision
       vals = @validations.keys.map do |userID|
+        valid = 0
+        invalid = 0
         val = @validations[userID]
         valid += val[:valid].length.to_f
         invalid += val[:invalid].length.to_f
