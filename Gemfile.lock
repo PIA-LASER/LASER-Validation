@@ -3,6 +3,7 @@ GEM
   specs:
     minitest (3.0.0)
     rake (0.9.2.2)
+    redis (3.0.0)
 
 PLATFORMS
   ruby
@@ -10,3 +11,4 @@ PLATFORMS
 DEPENDENCIES
   minitest
   rake
+  redis
