@@ -26,6 +26,12 @@ OptionParser.new do |opts|
     puts opts
     exit
   end
+  
+  opts.on( '-t', '--threshold THRESHOLD', 'Dismiss recommendations below threshold') do |threshold|
+    options[:threshold] = threshold
+  end
+
+
 end.parse!
 
 

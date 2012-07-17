@@ -12,11 +12,12 @@ module Validator
       @category_reader = FileReader.new(options[:categories])
       @samples = FileReader.new(options[:samples])
       @validations = { }
+      @threshold = options[:threshold].to_f
     end
 
     def validate
       load_user_prefs
-      overall_precision
+      puts overall_precision
 
       sorted_user_precision
     end
@@ -55,6 +56,12 @@ module Validator
 
     def add_user_pref(line)
       userID, itemID, preference = line.split(",").map { |el| el.strip }
+
+      if preference.to_f < @threshold
+        #puts "had: " + preference
+        return
+      end
+
       @validations[userID] ||= { :valid => [], :invalid => [] }
 
       categories = lookup_categories(itemID)
@@ -64,6 +71,10 @@ module Validator
         else
           @validations[userID][:invalid] << itemID
         end
+      end
+  
+      if userID == "0" 
+        puts @validations[userID].inspect
       end
     end
 
