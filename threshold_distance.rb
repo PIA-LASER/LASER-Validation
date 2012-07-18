@@ -2,31 +2,41 @@ require "redis"
 
 threshold = 0.0000000001
 
+f = File.open("/Users/dominik/Desktop/maaaaan", "r")
+recs = {}
+
+f.each_line do|line|
+  prefs = line.strip!.split(",")
+
+  user_id = prefs[0].to_i
+  item_id = prefs[1].to_i
+  pref = prefs[2].to_f
+
+  if(recs[user_id].nil?)
+    recs[user_id] = {item_id => pref}
+  else
+    recs[user_id][item_id] = pref
+  end
+end
+
+
 ARGV.each do |arg|
 	threshold = arg.to_i
 end
 
-con = Redis.new(:host => "master", :db => 0)
 
-users = con.keys('users.*')
-
-users = users.map do |user|
-	user.gsub("users.","")
-end
 
 total = 0
 
-users.each do |id|
-	rec = con.zrange("users."+id,0,-1, withscores: true)
-
+recs.each_pair do |user_id, prefs|
 	rec_bigger = []	
 	rec_smaller = []
 
-	rec.each do |pref|
-		if pref[1].to_f > threshold
-			rec_bigger << pref[1].to_f
+	prefs.each_pair do |item_id, pref|
+		if pref > threshold
+			rec_bigger << pref
 		else
-			rec_smaller << pref[1].to_f
+			rec_smaller << pref
 		end	
 	end	
 	
@@ -41,4 +51,4 @@ users.each do |id|
 end
 
 puts "Distance between filtered and kept recommendations."
-puts total / users.count.to_f
+puts total / recs.count.to_f
