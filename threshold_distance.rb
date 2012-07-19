@@ -2,8 +2,10 @@ require "redis"
 
 threshold = 0.0000000001
 
-f = File.open("/Users/dominik/Desktop/maaaaan", "r")
+f = File.open(ARGV[1], "r")
 recs = {}
+
+count = 0
 
 f.each_line do|line|
   prefs = line.strip!.split(",")
@@ -11,6 +13,12 @@ f.each_line do|line|
   user_id = prefs[0].to_i
   item_id = prefs[1].to_i
   pref = prefs[2].to_f
+	
+  count +=1
+
+  if(count.remainder(10000) ==0)
+    puts count
+  end
 
   if(recs[user_id].nil?)
     recs[user_id] = {item_id => pref}
@@ -19,12 +27,13 @@ f.each_line do|line|
   end
 end
 
+threshold = ARGV[0].to_i
 
-ARGV.each do |arg|
-	threshold = arg.to_i
-end
+#ARGV.each do |arg|
+#	threshold = arg.to_i
+#end
 
-
+puts recs.count
 
 total = 0
 

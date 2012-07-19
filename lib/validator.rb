@@ -25,8 +25,12 @@ module Validator
     private
 
     def load_user_prefs
+	index = 0
       @recommendations.each do |line|
+	puts index
+	index += 1
         add_user_pref(line)
+		
       end
     end
 
