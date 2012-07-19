@@ -2,7 +2,7 @@ require "redis"
 
 threshold = 0
 
-f = File.open("/Users/dominik/Desktop/maaaaan", "r")
+f = File.open("", "r")
 recs = {}
 
 f.each_line do|line|
@@ -20,7 +20,7 @@ f.each_line do|line|
 end
 f.close
 
-f = File.open("/Users/dominik/Desktop/maaaaan2", "r")
+f = File.open("", "r")
 links = {}
 
 f.each_line do|line|
